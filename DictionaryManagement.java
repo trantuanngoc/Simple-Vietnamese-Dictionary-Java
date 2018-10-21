@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dictionary1;
+package miniproject;
 
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
+import javax.print.DocFlavor;
+import javax.swing.DefaultListModel;
+import javax.swing.text.Utilities;
 
 
 /**
@@ -15,7 +20,7 @@ import java.util.Scanner;
  * @author DELL
  */
 public class DictionaryManagement {
-    
+    DefaultListModel<String> model = new DefaultListModel<>();
     public void insertFromCommandline(Dictionary dic){
         
         Scanner sc =new Scanner(System.in);
@@ -31,8 +36,9 @@ public class DictionaryManagement {
         }     
     }
     public void insertFromFile(Dictionary dic){
-        File file =new File("F:\\netbean_program\\dictionary\\src\\dictionary1\\newpackage\\dictionaries.txt");
-        try(Scanner  sc = new Scanner(file)){
+     InputStream stream = DictionaryManagement.class.getResourceAsStream("/miniproject/dictionaries.txt");
+        try(Scanner sc = new Scanner(stream)){
+       // File file =new File("dictionaries.txt");
         String str;
         Word words[] = new Word[30000] ;
         int i=0;
@@ -40,6 +46,7 @@ public class DictionaryManagement {
             str=sc.nextLine();
             String[] word =str.split("\t",2);
             words[i]=new Word(word[0], word[1]);
+            model.addElement(word[0]);
            i++;
         }
         dic.setN(i);
@@ -52,16 +59,19 @@ public class DictionaryManagement {
 		System.out.println(" nhập từ bạn muốn tra");
 		 Scanner scan = new Scanner(System.in);
 		 String wordTranslate = scan.nextLine();
+                 
 		 for(int i = 0; i< dic.words.length;i++) {
 			 if(wordTranslate.equals(dic.words[i].getWordTarget())) {
 				 System.out.println("| English          | Vietnamese");
 				 System.out.println("| "+dic.words[i].getWordTarget()+"        |"+dic.words[i].getWordExplain());
+                                
 			     break;
 			 }
                          else if(i==dic.words.length-1)
                              System.out.println("Từ điển chưa có từ bạn muốn tìm");
                          
 		 }
+                 
 	}	
     public void dictionarySearcher(Dictionary dic){
             Scanner sc= new Scanner(System.in);
@@ -75,5 +85,81 @@ public class DictionaryManagement {
                         }
             }
     }
-	
+    public String searcher(Dictionary dic,String s){ 
+           String d = null;
+           for(int i = 0; i< dic.getN();i++) {
+			 if(s.equals(dic.words[i].getWordTarget())) {
+				 d=dic.words[i].getWordExplain();
+			    break;
+			 } 
+                    
+		 }
+           if(d==null)d = "Từ điển không có từ bạn tìm";
+      return d;
+    }
+    
+   
+    
+    public String deleteWord(Dictionary dic,String wordString){
+           String d = null;
+           for(int i = 0; i< dic.getN();i++) {
+			 if(wordString.equals(dic.words[i].getWordTarget())) {
+				 d="đã xóa";
+                                 for(int j=i;j<dic.getN();j++)
+                                 {
+                                     dic.words[i]=dic.words[i+1];
+                                    
+                                 }
+			    break;
+			 } 
+                    
+		 }
+           if(d==null)d = "Từ điển không có từ bạn tìm";
+      return  d;
+    }
+    
+    public String editWord(Dictionary dic,String inputWord,String outputTarget,String outputExplain){
+         String d = null;
+        
+
+           for(int i = 0; i< dic.getN();i++) {
+			 if(inputWord.equals(dic.words[i].getWordTarget())) {
+				 
+                                 if (outputTarget!=null) {
+                                     dic.words[i].setWordTarget(outputTarget);
+                                     d="Đã sửa";
+                                 }
+                                 else if (outputExplain!=null){
+                                     dic.words[i].setWordExplain(outputExplain);
+                                     d="Đã sửa";
+                                 }
+                                 else d="Bạn chưa điền ";
+			         
+                                 break;
+			 } 
+                    
+		 }
+           if(d==null)d = "Từ điển không có từ bạn tìm";
+      return d;
+    }
+    
+    public String insertWord(Dictionary dic,String inputWord){
+         String d="đã thêm";
+        
+       
+      return  d;
+    }
+   
+    public void dictionaryExportToFile(Dictionary dic){
+        File f = new File("");
+        File file = new File (f.getAbsolutePath()+"\\dictionary.txt");
+        try(PrintWriter pw = new PrintWriter(file)) {
+           for(int i = 0;i < dic.getN();i ++){
+               pw.println(  dic.words[i].getWordTarget());
+               pw.println("\t"+dic.words[i].getWordExplain());
+           }
+        } catch (Exception e) {
+        }
+    }
+    
 }
