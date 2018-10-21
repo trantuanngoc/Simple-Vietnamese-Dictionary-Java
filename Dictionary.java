@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miniproject;
+package dictionary1;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Dictionary  {
         
         public void Dictionary(int n){
             this.n=n;
-             
+             //this.words =new Word[n];
         }
       
        public int getN() {
