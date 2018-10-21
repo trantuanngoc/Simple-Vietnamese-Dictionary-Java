@@ -155,8 +155,8 @@ public class DictionaryManagement {
         File file = new File (f.getAbsolutePath()+"\\dictionary.txt");
         try(PrintWriter pw = new PrintWriter(file)) {
            for(int i = 0;i < dic.getN();i ++){
-               pw.println(  dic.words[i].getWordTarget());
-               pw.println("\t"+dic.words[i].getWordExplain());
+               pw.println(  dic.words[i].getWordTarget()+"\t"+dic.words[i].getWordExplain());
+               
            }
         } catch (Exception e) {
         }
