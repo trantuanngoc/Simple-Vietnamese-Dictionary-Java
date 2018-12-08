@@ -1,1 +1,1 @@
-Vietnamese dictionary application write into java
+Vietnamese dictionary application write in java
