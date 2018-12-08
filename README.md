@@ -1,1 +1,1 @@
-# ngoc_and_tu
+Vietnamese dictionary application write into java
